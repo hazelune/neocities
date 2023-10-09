@@ -1,0 +1,315 @@
+/* CSS is how you can add style to your website, such as colors, fonts, and positioning of your
+   HTML content. To learn how to do something, just try searching Google for questions like
+   "how to change link color." */
+
+   body, html, a, a:hover, textarea { cursor:url("https://cepheus.neocities.org/img/cbasic.png"), crosshair;}
+
+   body{
+     background: #f7d2d2;
+     font-family: 'Tajawal', sans-serif;
+     font-size: 15px;
+     letter-spacing:1px;}
+     
+     
+   #container{
+     width: 800px;
+     overflow:auto;
+     overflow-x:none;
+     background: white;
+     border: 1px solid black;
+     outline: 10px solid white;
+     border-radius: 13px;
+     margin: 0 auto;
+     margin-top: 70px;
+     margin-bottom: 70px;}
+     
+   .header{
+     float:left;
+     margin: 0;
+     padding: 0;
+     width: 100%;
+     height: 150px;
+     border-radius: 13px 13px 0px 0px;
+     background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     border-bottom: 1px solid black;
+     }
+     
+     .h{
+    margin-top:55px;
+     padding-left: 15px;
+     font-size: 30px;
+     color:white;
+     letter-spacing:3px;
+     line-height:25px;
+     font-weight:bold;}
+     
+     .h h2{
+       line-height:20px;
+     letter-spacing:3px;
+      font-weight:normal;
+      font-size: 17px;
+      margin:0;
+      padding:0;
+     }
+   
+     
+   .side{
+     width: 200px;
+     float:left;
+     border: none;
+     margin: 25px;
+     margin-right: 5px;
+   }
+   
+   .blog{
+     border: none;
+     width: 515px;
+     float:right;
+     margin: 25px;
+     margin-left: 10px;
+   }
+   
+   .side h1{
+     font-size:24px;
+     padding:0px;
+     margin:0px;
+     text-align:center;
+     border-bottom: 1px solid #4a3f3f;
+     font-weight: normal;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:6px;
+   }
+     
+   .side h2{
+     background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     font-size:20px;
+     padding:0px;
+     margin:0px;
+     text-align:center;
+     color:white;
+     font-weight: bold;
+     border: 1px solid black;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:3px;
+   }  
+   
+    .blog h1{
+     font-size:26px;
+     padding:0px;
+     margin:0px;
+     text-align:right;
+     border-bottom: 1px solid #4a3f3f;
+     font-weight: normal;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:3px;
+   }
+   
+     
+   .blog h2{
+     background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     font-size:20px;
+     padding:0px;
+     margin:0px;
+     text-align:center;
+     color:white;
+     font-weight: bold;
+     border: 1px solid black;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:3px;
+   }  
+     
+   .t{
+     color:#4a3f3f;
+     padding-top:5px;
+     font-size:14px;
+     letter-spacing:2.5px;
+     padding-bottom:5px;}
+     
+     ul{list-style-image: url('https://cepheus.neocities.org/vessel/pj/miniicq.gif');}
+     
+    .n ul{
+       padding:0;
+       margin:0;
+       list-style-position:inside;
+       list-style-image: url('https://cepheus.neocities.org/vessel/pj/folder-orange.gif');
+       }
+   
+   .n{margin:0;
+   padding:0;
+   
+   }
+   
+   .n a{
+    color: black;
+    text-decoration:none;
+    margin:0;
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom:5px;
+    border:none;
+   }
+   
+   .n a:hover{
+     color:#ad6a6a;
+     -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;}
+   
+   .n li{
+     border-bottom: 1px dashed #aaa;
+     list-style-type: square;
+    margin-top: 5px;
+    margin-bottom: 5px;}
+    
+    .n ul{
+      margin-top: -5px;}
+     
+   
+   .footer{
+   width: 100%;
+  height: auto;
+  line-height: 16px;
+  background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     border-radius: 0px 0px 13px 13px;
+  border-top: 1px solid black;
+  text-align:center; 
+  font-size: 16px;
+  margin:0;
+  font-weight:normal;
+  color:#fff;
+  padding:0;
+  padding-top:10px;
+  padding-bottom:4px;
+  float:right;}
+     
+ .footer a{
+   text-decoration: none;
+   color:inherit;}
+   
+   
+ .footer a:hover{
+   -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;
+   color:#f7d2d2;}
+   
+   a{
+     text-decoration:none;
+   border-bottom: 1px dashed #992b2b;
+   color: #333;
+   -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;}
+   
+   a:hover{
+     -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;
+     color:#992b2b;}
+     
+     em{
+      font-style:normal;
+      font-weight:bold;
+      color: #f7d2d2;
+      background: #992b2b;
+     }
+     
+     i{
+       color: #992b2b;}
+       
+       blockquote{
+         border: 1px solid black;
+     border-radius: 13px;
+     padding:5px;
+     color: black;
+     background:#f7d2d2;}
+   
+   ::-webkit-scrollbar {
+     width: 8px;
+     background:white;
+     
+     border: 1px solid #000;
+ }
+ 
+ ::-webkit-scrollbar-track {
+     -webkit-box-shadow: inset 0 0 0px rgba(0,0,255,1); 
+     border-radius: 0px;
+     
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+   
+     border-radius: 0px;
+     -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.5); 
+     background:black;
+     
+     border: 0px solid #fff;
+ } 
+
+   
+@media only screen and (max-width: 799px) {
+  
+  body{
+    width:100%;
+    margin: 0;
+    padding:0;
+    font-size: 20px;}
+    
+  #container{
+  width: 95%;
+  margin: 0 auto;
+  padding:0;
+  margin-top: 15px;
+  margin-bottom: 15px; 
+  }
+  
+  .header{
+    text-align:center;
+    height: 200px;}
+    
+    .h{
+      margin-left: -5px;
+      font-size: 50px;
+    line-height: 45px;}
+    
+    .h h2{font-size: 22px;
+    line-height: 50px;}
+  
+  .blog{
+    display:inline-block;
+    float:none;
+    width: 100%;
+    margin:0;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding:0;}
+    
+  .side{
+    display:inline-block;
+    float:none;
+    width: 100%;
+    margin:0;
+    margin-top:10px;
+    border-top: 1px dashed black;
+    padding:0;
+    margin-bottom: 10px;
+    padding-top:20px;}
+    
+  .t{
+    margin-bottom: 10px;
+    padding:5px;
+    font-size: 20px;}
+    
+     .n ul{
+       padding-left: 5px;
+       padding-right: 5px;}
+    
+  }
