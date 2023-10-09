@@ -1,3 +1,5 @@
+name: deploy to neocities
+
 # only run on changes to master
 on: 
   push:
