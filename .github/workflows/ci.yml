@@ -1,10 +1,10 @@
 name: Deploy to neocities
 
-# only run on changes to main
+# only run on changes to master
 on:
   push:
     branches:
-      - main
+      - master
       
 env:
   FORCE_COLOR: 1
@@ -30,7 +30,7 @@ jobs:
     - run: npm run build
     # When the dist_dir is ready, deploy it to neocities
     - name: Deploy to neocities
-      uses: bcomnes/deploy-to-neocities@main # dont use main in production
+      uses: bcomnes/deploy-to-neocities@master # dont use master in production
       with:
         api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
         cleanup: false
