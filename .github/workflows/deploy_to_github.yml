@@ -28,7 +28,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 12.x
-    - run: git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
+    - run: git config --global url."https://${{ secrets.NEOCITIES_API_TOKEN }}@github.com/".insteadOf ssh://git@github.com/
     - run: npm i
     - run: npm run build
     # When the dist_dir is ready, deploy it to neocities
