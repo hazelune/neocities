@@ -2,5 +2,10 @@
   "dependencies": {
     "build": "^0.1.4",
     "express": "^4.18.2"
+  },
+  "scripts": {
+    "build": "npm run clean && run-p build:*",
+    "build:action": "rm -rf dist && esbuild index.js --bundle --platform=node --target=node16 --sourcemap=external --outdir=dist",
+    "build:site": "siteup --src . --dest public"
   }
 }
