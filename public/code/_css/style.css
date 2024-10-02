@@ -30,7 +30,7 @@
      width: 100%;
      height: 150px;
      border-radius: 13px 13px 0px 0px;
-     background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     background: url('../../sources/media/placeholder.png');
      border-bottom: 1px solid black;
      }
      
@@ -83,7 +83,7 @@
    }
      
    .side h2{
-     background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     background: url('../../sources/media/placeholder.png');
      font-size:20px;
      padding:0px;
      margin:0px;
@@ -112,7 +112,7 @@
    
      
    .blog h2{
-     background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+     background: url('../../sources/media/placeholder.png');
      font-size:20px;
      padding:0px;
      margin:0px;
@@ -133,13 +133,13 @@
      letter-spacing:2.5px;
      padding-bottom:5px;}
      
-     ul{list-style-image: url('https://cepheus.neocities.org/vessel/pj/miniicq.gif');}
+     ul{list-style-image: url('../../sources/media/placeholder.png');}
      
     .n ul{
        padding:0;
        margin:0;
        list-style-position:inside;
-       list-style-image: url('https://cepheus.neocities.org/vessel/pj/folder-orange.gif');
+       list-style-image: url('../../sources/media/placeholder.png');
        }
    
    .n{margin:0;
@@ -177,7 +177,7 @@
    width: 100%;
   height: auto;
   line-height: 16px;
-  background: url('https://cepheus.neocities.org/vessel/pj/_s_a73b73c159d159e0f0g64h7F0505AD1B0F8F8F65000000iEEj0k64l158m158.png');
+  background: url('../../sources/media/placeholder.png');
      border-radius: 0px 0px 13px 13px;
   border-top: 1px solid black;
   text-align:center; 
