@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v4
     # Set up any tools and build steps here
     - name: Deploy to neocities
-      uses: bcomnes/deploy-to-neocities@v2.0.2
+      uses: bcomnes/deploy-to-neocities@v1
       with:
         api_token: ${{ secrets.NEOCITIES_API_TOKEN }}
         cleanup: false
