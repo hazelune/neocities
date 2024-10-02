@@ -6,10 +6,6 @@ on:
     branches:
       - main
 
-env:
-  FORCE_COLOR: 1
-  node_version: lts/*
-
 concurrency: # prevent concurrent deploys doing strange things
   group: deploy-to-neocities
   cancel-in-progress: true
@@ -19,21 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     # Set up any tools and build steps here
-    # This example uses a Node.js toolchain to build a site
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.node_version }}
-    - name: Install deps and build
-      run: |
-        npm i
-        npm run build
-    # When the dist_dir is ready, deploy it to neocities
     - name: Deploy to neocities
-      uses: bcomnes/deploy-to-neocities@v2
+      uses: bcomnes/deploy-to-neocities@v2.0.2
       with:
         api_token: c310a6e78682f0d3987e0a4b9b1cf0fd
-        cleanup: false
+        cleanup: true
         dist_dir: public
