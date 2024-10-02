@@ -133,13 +133,13 @@
      letter-spacing:2.5px;
      padding-bottom:5px;}
      
-     ul{list-style-image: url('../../sources/media/placeholder.png');}
+     ul{list-style-image: url('../../sources/media/bullet_placeholder.png');}
      
     .n ul{
        padding:0;
        margin:0;
        list-style-position:inside;
-       list-style-image: url('../../sources/media/placeholder.png');
+       list-style-image: url('../../sources/media/bullet_placeholder.png');
        }
    
    .n{margin:0;
