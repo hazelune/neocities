@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+env:
+  FORCE_COLOR: 1
+  node_version: lts/*
+
 concurrency: # prevent concurrent deploys doing strange things
   group: deploy-to-neocities
   cancel-in-progress: true
