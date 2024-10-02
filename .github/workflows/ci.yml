@@ -1,6 +1,6 @@
 name: Deploy to neocities
 
-# only run on changes to main
+# only run on changes to main. Use main or master depending on whatever your default branch is called. 
 on:
   push:
     branches:
@@ -15,9 +15,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
+    # Set up any tools and build steps here
+    # This example uses a Node.js toolchain to build a site
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: lts/*
+    - name: Install deps and build
+      run: |
+        npm i
+        npm run build
+    # When the dist_dir is ready, deploy it to neocities
     - name: Deploy to neocities
-      uses: bcomnes/deploy-to-neocities@v1
+      uses: bcomnes/deploy-to-neocities@v2
       with:
         api_token: c310a6e78682f0d3987e0a4b9b1cf0fd
         cleanup: false
