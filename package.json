@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "nvm": "^0.0.4",
+    "octokit": "^4.0.2"
+  }
+}
