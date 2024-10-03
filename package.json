@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "dotenv": "^16.4.5",
+    "jsdom": "^25.0.1",
+    "json-to-table": "^4.2.1",
     "nvm": "^0.0.4",
     "octokit": "^4.0.2"
   }
