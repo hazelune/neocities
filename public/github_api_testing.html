@@ -8,7 +8,23 @@
     </head>
     <body>
         <div id="container">
+            <div class="header">
+                <div class="h">github api testing
+                <h2>updates section
+                </h2>
+                </div>
+            </div>
             test for initial push
+            <div id="github_updates">
+                <script type="module">
+                    import {Octokit, App} from  "https://esm.sh/octokit";
+                    import 'dotenv/config';
+
+                    const octokit = new Octokit({
+                        auth: HAZEL_MASTER_PAT 
+                    })
+                </script>
+            </div>
         </div>
     </body>
 </html>
