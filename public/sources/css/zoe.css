@@ -18,7 +18,7 @@
 	   color: #23274d;
    }
 
-   body{
+   body {
      background: #f7d2d2;
      font-family: 'Tajawal', sans-serif;
      font-size: 15px;
@@ -27,6 +27,7 @@
      opacity: 0.8;
      background-size: 15px 15px;
      background-image: repeating-linear-gradient(45deg, #c0b5ef 0, #c0b5ef 1.5px, #eed6ff 0, #eed6ff 50%);
+    }
      
    #container{
      overflow:auto;
@@ -49,39 +50,72 @@
      background: url('../../sources/media/placeholder.png');
      border-bottom: 1px solid black;
      }
+
+     /* setup grid */
+     * {
+	     box-sizing: border-box;
+     }
      .grid-container {
 	     display: grid;
 	     grid-template-columns: 0.3fr 0.7fr; /* unequal cols */
-	     height: 100vh; /* 80% of screen height */
-	     gap: 50px; /* adds gap between cols */
+	     gap: 0px; /* adds gap between cols */
+	     width: 100%;
+	     box-sizing: border-box;
      }
+
      .left-panel {
-	     overflow:auto;
-	     overflow-x:none;
-	     background: white;
-	     border: 1px solid black;
+	     display: grid;
+	     grid-template-columns: 1fr;
+	     grid-auto-rows: min-content;
+	     overflow-x: none;
+	     row-gap: 2em;
+	     overflow-y: auto;
+	     overflow-x: hidden;
+	     padding: 30px;
+	     margin: 20px 0;
+	     /* border: 1px solid black;
 	     outline: 10px solid white;
-	     border-radius: 13px;
-	     margin: 0 auto;
-	     margin-top: 70px;
-	     margin-bottom: 70px;}
+	     border-radius: 13px; */
      }
 
      .right-panel {
-	     overflow:auto;
-	     overflow-x:none;
+	     display: grid;
+	     grid-template-columns: 1fr;
+	     grid-auto-rows: min-content;
+	     overflow-y: auto;
+	     overflow-x: hidden;
+	     /* border: 1px solid black;
+	     outline: 10px solid white;
+	     border-radius: 13px; */
+	     padding: 30px;
+	     margin: 20px 0;
+     }
+     .block {
 	     background: white;
+	     padding: 15px;
 	     border: 1px solid black;
 	     outline: 10px solid white;
 	     border-radius: 13px;
-	     margin: 0 auto;
-	     margin-top: 70px;
-	     margin-right: 100px;
-	     margin-bottom: 70px;
      }
+
+     #discord {
+	     background: #242429;
+	     color: #efeff1;
+     }
+     #discord p, h3 {
+	     margin: 2.5px 0;
+     }
+     #discord img {
+	     margin-bottom: 0;
+	     padding: 0;
+     }
+
      .obnoxious {
 	     z-index: 5;
 	     box-shadow: 10px 10px 5px 8px #aaaaaa;
+     }
+     .circle-frame {
+	     border-radius: 50%;
      }
      
      .h{

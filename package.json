@@ -1,7 +1,12 @@
 {
   "dependencies": {
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
+    "http-server": "^14.1.1",
     "nvm": "^0.0.4",
-    "octokit": "^4.0.2"
+    "octokit": "^4.0.2",
+    "url": "^0.11.4"
+  },
+  "devDependencies": {
+    "vite": "^7.3.1"
   }
 }
