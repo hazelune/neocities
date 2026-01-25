@@ -42,7 +42,8 @@ async function rotateImg(element, minRotation, maxRotation, delayTime) {
 }
 
 
-// IM IN THE BUSINESS OF MISERY
+// IM IN THE BUSINESS OF MISERY (no audio yet)
+/*
 const audioDiv = document.querySelector("#misery-business");
 const audio = document.createElement("audio");
 const audioAttributes = {
@@ -54,8 +55,7 @@ setManyAttributes(audio, audioAttributes);
 // random playback speed between 1x and 1.5x (in addition to the already sped up nightcore)
 audio.playbackRate = Math.random() * (1.5 - 1) + 1;
 audioDiv.appendChild(audio);
-
-
+*/
 
 // SETUP DISCORD  
 const embedJson = await getForEmbed(); 
@@ -70,13 +70,15 @@ const disc = document.querySelector("#discord");
 // discord's html pfp setup can be somewhat complicated due to using SVGs for statuses, which kinda got me in a deep end. but it's fun to learn! 
 // default offline, case match otherwise
 let statusColor = "#84858d";
-switch (userStatus) {
-	case "online":
-		statusColor = "#45a366";
-	case "idle": 
-		statusColor = "#ffc04e";
-	case "dnd":
-		statusColor = "#da3e44";
+// switch/case failed to differentiate colors. oops! bug fix that later.
+if (userStatus == "online") {
+	statusColor = "#45a366";
+}
+if (userStatus == "idle") {
+	statusColor = "#ffc04e";
+}
+if (userStatus == "dnd") {
+	statusColor = "#da3e44";
 }
 // format for linking to mask
 const statusForIcon = "url(#" + userStatus +")";
