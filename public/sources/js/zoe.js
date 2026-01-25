@@ -48,7 +48,7 @@ const audio = document.createElement("audio");
 const audioAttributes = {
 	autoplay: true,
 	loop: true,
-	src: "./sources/mp3/Nightcore   Misery Business [RVhHCJMCyTE].mp3"  // https://youtu.be/RVhHCJMCyTE
+	src: "./sources/mp3/misery-business.mp3"  // https://youtu.be/RVhHCJMCyTE
 }
 setManyAttributes(audio, audioAttributes);
 // random playback speed between 1x and 1.5x (in addition to the already sped up nightcore)
