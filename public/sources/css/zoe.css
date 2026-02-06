@@ -28,17 +28,34 @@
      background-size: 15px 15px;
      background-image: repeating-linear-gradient(45deg, #c0b5ef 0, #c0b5ef 1.5px, #eed6ff 0, #eed6ff 50%);
     }
+
+    /* this sets the keyframes (of an animation) rule to be used stamp-scroll*/
+    @keyframes horizontalscroll {
+	    0% {
+		    transform: translate(0,0);
+	    }
+	    100% {
+		    transform: translate(-50%,0);
+	    }
+    }
+
+    .stamp-scroll {
+	    /* css animation is a shorthand for several properties -- this tells the @keyframes rule to use, the duration, iteration count, and then speed at which it hits the keyframes (acceleration/deceleration) */
+	    /* for accessibility, try this later https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion */
+	    animation: horizontalscroll 10s infinite linear;
+	    white-space: nowrap;
+	    position: absolute;
+	    overflow: hidden;
+	    z-index: 10;
+    }
      
    #container{
-     overflow:auto;
-     overflow-x:none;
-     background: white;
-     border: 1px solid black;
-     outline: 10px solid white;
-     border-radius: 13px;
-     margin: 0 auto;
-     margin-top: 70px;
-     margin-bottom: 70px;}
+	   overflow:auto;
+	   overflow-x:none;
+	   margin: 0 auto;
+	   margin-top: 20px;
+	   margin-bottom: 20px;
+     }
      
    .header{
      float:left;
@@ -56,6 +73,7 @@
 	     box-sizing: border-box;
      }
      .grid-container {
+	     position: relative;
 	     display: grid;
 	     grid-template-columns: 0.3fr 0.7fr; /* unequal cols */
 	     gap: 20px; /* adds gap between cols */
@@ -79,12 +97,11 @@
      }
 
      .right-panel {
-	     position: relative;
 	     display: grid;
 	     grid-template-columns: 1fr 1fr;  /* equal size cols */
 	     grid-auto-rows: min-content;
-	     overflow-y: auto;
-	     overflow-x: visible;
+	     overflow-y: hidden;
+	     overflow-x: hidden;
 	     row-gap: 2em;  /* gap between rows of panel */
 	     gap: 30px;  /* gap between cols */
 	     /* border: 1px solid black;
@@ -125,6 +142,23 @@
 	     bottom: 0px;
 	     right: 0px;
 	     width: 230px;
+     }
+     #flag {
+	     top: -20px;
+	     right: 0px;
+	     width: 200px;
+	     transform: rotate(15deg);
+     }
+     #madoka-homura {
+	     bottom: 10px;
+	     right: 10px;
+	     width: 200px;
+	     transform: rotate(20deg);
+     }
+     #konata {
+	     bottom: -50px;
+	     right: 550px;
+	     width: 200px;
      }
      .shadow {
 	     box-shadow: 10px 10px 5px 8px #aaaaaa;

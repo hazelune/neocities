@@ -1,4 +1,4 @@
-import { getForEmbed } from './discord_api.mjs';
+import { getDiscordJson } from './discord_api.mjs';
 import { getSheetsJson }from './sheets_api.mjs';
 
 // less tedious this way
@@ -41,15 +41,99 @@ async function rotateImg(element, minRotation, maxRotation, delayTime) {
 	}
 }
 
+// SHEETS STATS INTEGRATION
+// putting this first because actually i'm going to make this site vary based on her break
+// fetching from api and placing under correct block
+const statsJson = await getSheetsJson();
+console.log(statsJson);
+const statsListDiv = document.querySelector("#stats-list");
+// list format
+const statsList = document.createElement("ul");
+const harmLi = document.createElement("li");
+
+// current display is number of ticked boxes in sheet -- this counts them, but maybe a different format in the future
+// this is done for harm (/10), fear (/5), and exp (/5)
+const harmNum = statsJson.harm.reduce(
+	(accumulator, currentValue) => accumulator + currentValue,
+	0
+);
+harmLi.textContent = `Harm: ${harmNum}`; 
+const fearLi = document.createElement("li");
+const fearNum = statsJson.fear.reduce(
+	(accumulator, currentValue) => accumulator + currentValue,
+	0
+);
+fearLi.textContent = `Fear: ${fearNum}`; 
+const expLi = document.createElement("li");
+const expNum = statsJson.exp.reduce(
+	(accumulator, currentValue) => accumulator + currentValue,
+	0
+);
+expLi.textContent = `Exp: ${expNum}`; 
+
+// used for site design :3c
+const breakStat = parseInt(statsJson.break.slice(1)); 
+// and these are for the five ability scores
+const heftLi = document.createElement("li");
+heftLi.textContent = `Heft: ${statsJson.heft}`;
+const keenLi = document.createElement("li");
+keenLi.textContent = `Keen: ${statsJson.keen}`;
+const stingLi = document.createElement("li");
+stingLi.textContent = `Sting: ${statsJson.sting}`;
+const coreLi = document.createElement("li");
+coreLi.textContent = `Core: ${statsJson.core}`;
+const breakLi = document.createElement("li");
+breakLi.textContent = `Break: ${statsJson.break}`;
+
+// then putting it all in the list
+statsList.appendChild(harmLi);
+statsList.appendChild(fearLi);
+statsList.appendChild(expLi);
+statsList.appendChild(heftLi);
+statsList.appendChild(keenLi);
+statsList.appendChild(stingLi);
+statsList.appendChild(coreLi);
+statsList.appendChild(breakLi);
+statsListDiv.appendChild(statsList);
+
+const strugglesListDiv = document.querySelector("#struggles-and-links");
+const strugglesList = document.createElement("ul");
+const struggles = statsJson.struggles;
+const struggleNotes = statsJson.strugglesNotes;
+const struggleLinks = statsJson.links;
+for (let i = 0; i < struggles.length; i++) {
+	console.log([struggles[i], struggleNotes[i], struggleLinks[i]]);
+	const struggle = document.createElement("li");
+	struggle.innerHTML = `<b>${struggles[i]}</b>: ${struggleNotes[i]}`;
+	const linkList = document.createElement("ul");
+	const link = document.createElement("li");
+	link.textContent = struggleLinks[i];
+
+	linkList.appendChild(link);
+	strugglesList.appendChild(struggle);
+	strugglesList.appendChild(linkList);
+	strugglesListDiv.appendChild(strugglesList);
+}
+
+
+
+// FOR MUSIC (mp3s on neocities costs money sobbing)
+/*
+let audioSrc;
+if (breakStat < 4) {
+	audioSrc = "../mp3/misery-business.mp3"; // https://youtu.be/RVhHCJMCyTE
+}
+else {
+	audioSrc = "../mp3/cc.mp3"; // https://youtu.be/auJdZUlKrzM
+}
 
 // IM IN THE BUSINESS OF MISERY (no audio yet)
-/*
 const audioDiv = document.querySelector("#misery-business");
 const audio = document.createElement("audio");
 const audioAttributes = {
 	autoplay: true,
 	loop: true,
-	src: "./sources/mp3/misery-business.mp3"  // https://youtu.be/RVhHCJMCyTE
+	src: audioSrc
 }
 setManyAttributes(audio, audioAttributes);
 // random playback speed between 1x and 1.5x (in addition to the already sped up nightcore)
@@ -57,12 +141,16 @@ audio.playbackRate = Math.random() * (1.5 - 1) + 1;
 audioDiv.appendChild(audio);
 */
 
+
 // SETUP DISCORD  
-const embedJson = await getForEmbed(); 
-console.log("getting the following json:", embedJson); 
-const username = embedJson.username; 
-const userStatus = embedJson.userStatus;
-const avatar = embedJson.avatar;
+const discordJson = await getDiscordJson(); 
+console.log("getting the following json:", discordJson); 
+const displayName = discordJson.displayName;
+const username = discordJson.username; 
+const userStatus = discordJson.userStatus;
+const avatar = discordJson.avatar;
+const statusEmoji = discordJson.statusEmoji;
+const statusText = discordJson.statusText;
 
 const disc = document.querySelector("#discord");
 
@@ -130,9 +218,9 @@ totalSvg.appendChild(statusSvg);
 disc.appendChild(totalSvg);
 
 // setup displayname and username (with textscroll for former)
-const displayName = document.createElement("h3");
-scrollRepeat(displayName, "zoooeeee uwu <33", 100, 1000);
-disc.appendChild(displayName);
+const displayNameHead = document.createElement("h3");
+scrollRepeat(displayNameHead, displayName, 100, 1000);
+disc.appendChild(displayNameHead);
 const usernameText = document.createElement("p");
 usernameText.textContent = username;
 disc.appendChild(usernameText);
@@ -140,56 +228,6 @@ disc.appendChild(usernameText);
 
 
 
-// SHEETS STATS INTEGRATION
-// fetching from api and placing under correct block
-const statsJson = await getSheetsJson();
-const statsListDiv = document.querySelector("#stats-list");
-// list format
-const statsList = document.createElement("ul");
-const harmLi = document.createElement("li");
-
-// current display is number of ticked boxes in sheet -- this counts them, but maybe a different format in the future
-// this is done for harm (/10), fear (/5), and exp (/5)
-const harmNum = statsJson.harm.reduce(
-	(accumulator, currentValue) => accumulator + currentValue,
-	0
-);
-harmLi.textContent = `Harm: ${harmNum}`; 
-const fearLi = document.createElement("li");
-const fearNum = statsJson.fear.reduce(
-	(accumulator, currentValue) => accumulator + currentValue,
-	0
-);
-fearLi.textContent = `Fear: ${fearNum}`; 
-const expLi = document.createElement("li");
-const expNum = statsJson.exp.reduce(
-	(accumulator, currentValue) => accumulator + currentValue,
-	0
-);
-expLi.textContent = `Exp: ${expNum}`; 
-
-// and these are for the five ability scores
-const heftLi = document.createElement("li");
-heftLi.textContent = `Heft: ${statsJson.heft}`;
-const keenLi = document.createElement("li");
-keenLi.textContent = `Keen: ${statsJson.keen}`;
-const stingLi = document.createElement("li");
-stingLi.textContent = `Sting: ${statsJson.sting}`;
-const coreLi = document.createElement("li");
-coreLi.textContent = `Core: ${statsJson.core}`;
-const breakLi = document.createElement("li");
-breakLi.textContent = `Break: ${statsJson.break}`;
-
-// then putting it all in the list
-statsList.appendChild(harmLi);
-statsList.appendChild(fearLi);
-statsList.appendChild(expLi);
-statsList.appendChild(heftLi);
-statsList.appendChild(keenLi);
-statsList.appendChild(stingLi);
-statsList.appendChild(coreLi);
-statsList.appendChild(breakLi);
-statsListDiv.appendChild(statsList);
 
 
 // MAKING DECORATIONS OBNOXIOUS

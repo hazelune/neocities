@@ -3,6 +3,7 @@ const STATS_ID = "0";
 const API_KEY = "AIzaSyBp_twfBo3FXESGoTad_Ybte-b2qxUv3FY";
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
 
+// locations of needed data
 const STATS_DICT = {
 	heft: "B7:C8",
 	keen: "B12:C13",
@@ -14,12 +15,13 @@ const STATS_DICT = {
 	dynamic: "L2:N2",
 	harm: "Q2:U3",
 	fear: "Q5:U5",
-	exp: "Q7:U7"
-	// struggles: ["E18:G19", "E20:G21", "E22:G23"], // (and notes)
-	// links: ["H17:K19", "H20:K21", "H22:K23"]
+	exp: "Q7:U7",
+	struggles: ["E18:G19", "E20:G21", "E22:G23"], // (and notes)
+	links: ["H18:K19", "H20:K21", "H22:K23"]
 }
 
 async function sheetsStatsRequest(values) {
+	// link based on passed values
 	const statsLink = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${values}/?key=${API_KEY}`
 	try {
 		const statsResponse = await fetch(statsLink, {
@@ -54,7 +56,8 @@ async function sheetsNotesRequest(ranges) {
 		});
 		if (notesResponse.ok) {
 			const notesJson = await notesResponse.json();
-			console.log(notesJson);
+			const noteText = notesJson.sheets[0].data[0].rowData[0].values[0].note;
+			return noteText;
 		}
 
 	} catch(error) {
@@ -64,14 +67,28 @@ async function sheetsNotesRequest(ranges) {
 
 
 export async function getSheetsJson() {
+	// Object.entries() returns an array of key-value pairs
 	const entries = Object.entries(STATS_DICT);
 	const promiseArray = entries.map(async function ([key, range]) {
-		const stat = await sheetsStatsRequest(range);
+		let stat;
+		if (typeof(range) === 'string') {
+			stat = await sheetsStatsRequest(range);
+		} 
+		else {
+			console.log([key, range]);
+			stat = await Promise.all(range.map(async function (innerRange) {
+				return await sheetsStatsRequest(innerRange);
+			}));
+		}
 		return [key, stat];
 	});
-	const results = await Promise.all(promiseArray);
+	let results = await Promise.all(promiseArray);
+	let strugglesNotes = [];
+	for (const notesRanges of STATS_DICT.struggles) {
+		strugglesNotes.push(await sheetsNotesRequest(notesRanges));
+	}
+	results.push(["strugglesNotes", strugglesNotes]);
 	const statsOutput = Object.fromEntries(results);
 	return statsOutput;
 }
 
-console.log(await getSheetsJson());
