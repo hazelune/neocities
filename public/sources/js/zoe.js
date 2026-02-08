@@ -124,7 +124,7 @@ try {
 
 
 // FOR MUSIC (mp3s on neocities costs money sobbing)
-
+/*
 let audioSrc = "../mp3/misery-business.mp3"; // https://youtu.be/RVhHCJMCyTE
 if (breakStat >= 4) {
 	audioSrc = "../mp3/cc.mp3"; // https://youtu.be/auJdZUlKrzM
@@ -142,6 +142,7 @@ setManyAttributes(audio, audioAttributes);
 // random playback speed between 1x and 1.5x (in addition to the already sped up nightcore)
 audio.playbackRate = Math.random() * (1.5 - 1) + 1;
 audioDiv.appendChild(audio);
+*/
 
 
 
