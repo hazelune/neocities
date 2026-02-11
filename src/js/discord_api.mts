@@ -1,10 +1,9 @@
 // these two are used for recurrent updates on the site
-const LANYARD_URL = "https://api.lanyard.rest/v1/users/";
 const USER_ID = "351470624373342221";
 
 
 // this uses lanyard to fetch data
-export async function getDiscordJson() {
+export async function getDiscordJson(): Promise<Record<string, string> | undefined> {
 	// trying to get the lanyard url
 	try {
 		const lanyardUrl = `https://api.lanyard.rest/v1/users/${USER_ID}`;
@@ -20,6 +19,7 @@ export async function getDiscordJson() {
 			const avatarHash = userData.avatar;
 			const avatarUrl = `https://cdn.discordapp.com/avatars/${USER_ID}/${avatarHash}.png`;
 			const username = userData.username;
+			const displayName = userData.display_name;
 			const userStatus = lanyardData.data.discord_status;
 			// must use bracket notation for int
 			const activities = lanyardData.data.activities;
@@ -39,13 +39,13 @@ export async function getDiscordJson() {
 
 
 			// may be useful later? 
-			const displayName = userData.display_name;
+			/*
 			const spotifyBool = lanyardData.spotify;
 			const spotify = lanyardData.spotify;
-			// console.log(`username: ${username}\nstatus: ${userStatus}\navatar: ${avatarUrl}`);
+			*/
 
 			// generating output and returning
-			const output = await {
+			const output: Record<string, string> = await {
 				"displayName": displayName,
 				"username": username,
 				"avatar": avatarUrl,

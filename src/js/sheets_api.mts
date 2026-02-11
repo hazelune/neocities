@@ -1,10 +1,23 @@
-const SHEET_ID = "1zYTbDT07KF_iNJc9wTHBKKW_cCzB1PLnYCxJLWqOECk";
-const STATS_ID = "0";
-const API_KEY = "AIzaSyBp_twfBo3FXESGoTad_Ybte-b2qxUv3FY";
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+const SHEET_ID: string = "1zYTbDT07KF_iNJc9wTHBKKW_cCzB1PLnYCxJLWqOECk";
+const API_KEY: string = "AIzaSyBp_twfBo3FXESGoTad_Ybte-b2qxUv3FY";
+
+// for later use with returnJson 
+interface RangesDict {
+	heft: string;
+	keen: string;
+	sting: string;
+	core: string;
+	break: string;
+	harm: boolean[];
+	fear: boolean[];
+	exp: boolean[];
+	struggles: string[];
+	links: string[];
+	[key: string]: string | string[] | boolean[];
+}
 
 // locations of needed data
-const STATS_DICT = {
+const STATS_DICT: Record<string, string> = {
 	heft: "B7:C8",
 	keen: "B12:C13",
 	sting: "B17:C18",
@@ -51,17 +64,27 @@ async function sheetsStatsRequest(values) {
 }
 */
 
+// small json that holds note value
+// the ? indicates that it is optional
+interface Note {
+	note?: string;
+}
+// this is the "values" json, also short
+interface NoteRow { 
+	values?: Note[];
+}
+// for messyArr -- array of notes per range given
+interface NotesCollection {
+	rowData: NoteRow[];
+}
 
-async function sheetsNotesRequest(rangesArr) {
-	let rangesStr;
-	if (typeof(rangesArr) === 'object') {
-		rangesStr = rangesArr.join("&ranges=");
-	}
-	else {
-		rangesStr = rangesArr;
-	}
-	const notesLink = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?ranges=${rangesStr}&fields=sheets(data(rowData(values(note))))&key=${API_KEY}`
+// takes as input an array of ranges (currently, just one range for struggles)
+async function sheetsNotesRequest(rangesArr: string[]) {
+	// if arr.length === 1, join just takes the string
+	let rangesStr: string = rangesArr.join("&ranges=");
+	const notesLink: string = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?ranges=${rangesStr}&fields=sheets(data(rowData(values(note))))&key=${API_KEY}`
 	try {
+		// not going to bother typing this
 		const notesResponse = await fetch(notesLink, {
 			method: 'GET'
 		});
@@ -70,12 +93,17 @@ async function sheetsNotesRequest(rangesArr) {
 			const messyArr = notesJson.sheets[0].data;
 			// okay i love you stack exchange and i need to learn maps better but
 			// this replaces each data[i]
-			let parsedArr = messyArr.map(data => {
-				return data.rowData
+			let parsedArr = messyArr.map((collection: NotesCollection) => {
+				return collection.rowData
 					// removes empty json objects in rowData array
 					.filter(jsonObj => Object.keys(jsonObj).length != 0)
 					// and then maps each json object to the note string, 
-					.map(row => row.values[0].note);
+					.map((row: NoteRow) => {
+						if (row.values === undefined) {
+							return "no note given";
+						}
+						return row.values[0].note;
+					});
 			});
 			if (parsedArr.length === 1) {
 				parsedArr = parsedArr[0];
@@ -89,7 +117,7 @@ async function sheetsNotesRequest(rangesArr) {
 }
 
 
-async function fetchAllStats(rangesJson) {
+async function fetchAllStats(rangesJson: Record<string, string>): Promise<RangesDict> {
 	// note that order of ranges in link placement is the same as order of resultant values
 	// maybe i could do this with a dataframe equivalent in JS but nahhhh i wanna use primitives
 	const keys = Object.keys(rangesJson);
@@ -103,7 +131,9 @@ async function fetchAllStats(rangesJson) {
 		if (statsResponse.ok) {
 			const statsJson = await statsResponse.json();
 			const statsArr = statsJson.valueRanges;
-			let returnJson = {};
+			// may need to update allowed types later?
+			// Partial<RangesDict> is used since it'll be filled with the requisite values i promise!!
+			let returnJson: Partial<RangesDict> = {};
 			for (let i = 0; i < statsArr.length; i++) {
 				let currentValue = statsArr[i].values;
 				let parsedValue = null;
@@ -113,40 +143,45 @@ async function fetchAllStats(rangesJson) {
 				if (currentValue[0][0] === "TRUE" || currentValue[0][0] === "FALSE") {
 					// this case is multiple sets of boxes ticked
 					if (currentValue.length > 1) {
-						 parsedValue = currentValue.flat().map(str => JSON.parse(str.toLowerCase()));
+						 parsedValue = currentValue.flat().map((str: string) => JSON.parse(str.toLowerCase()));
 					}
 					// and this is just a single set of boxes
 					else {
-						parsedValue = currentValue[0].map(str => JSON.parse(str.toLowerCase()));
+						parsedValue = currentValue[0].map((str: string) => JSON.parse(str.toLowerCase()));
 					}
 				}
 				// this handles struggles/links
 				else if (currentValue.length > 1) {
 					// eliminates empty rows and formats the rest as 1-d array
-					parsedValue = currentValue.filter(val => val.length != 0).flat();
+					parsedValue = currentValue.filter((val: string[]) => val.length != 0).flat();
 				}
 				// this handles stat values in format [[+0]]
 				else {
 					parsedValue = currentValue[0][0];
 				}
-				returnJson[keys[i]] = parsedValue;
+				// woahhhhh typescript has you specify that this is a key of the JSON that's so cool
+				returnJson[keys[i] as keyof typeof returnJson] = parsedValue;
 			}
-			return returnJson;
+			return returnJson as RangesDict;
 		}
 		else {
 			throw new Error(`Sheets Error: ${statsResponse.status}`);
 		}
 	} catch(error) {
 		console.error('oopsie >w>', error);
+		throw error;
 	}
 }
 
 
 export async function getSheetsJson() {
 	// Object.entries() returns an array of key-value pairs
-	const statsJson = await fetchAllStats(STATS_DICT);
-	const notesJson = { strugglesNotes: await sheetsNotesRequest(STATS_DICT.struggles) }
-	const returnJson = { ...statsJson, ...notesJson }
+	const statsJson: RangesDict = await fetchAllStats(STATS_DICT);
+	const notesArr: string[] = [STATS_DICT.struggles]
+	const notesJson = {
+		strugglesNotes: await sheetsNotesRequest(notesArr)
+	}
+	const returnJson: RangesDict = { ...statsJson, ...notesJson }
 	/*
 	let strugglesNotes = [];
 	for (const notesRanges of STATS_DICT.struggles) {
@@ -157,4 +192,5 @@ export async function getSheetsJson() {
 	*/
 	return returnJson;
 }
+
 
