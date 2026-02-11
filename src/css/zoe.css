@@ -11,23 +11,23 @@
    }
 
    * {
-	   cursor: url(/src/media/cursors/rin-heart1.png), auto;
+	   cursor: url(../media/cursors/rin-heart1.png), auto;
 	   -webkit-animation: cursor 400s infinite;
 	   animation: cursor 400ms infinite;
    }
    @-webkit-keyframes cursor {
-	   0% {cursor: url(/src/media/cursors/rin-heart1.png), auto;}
-	   25% {cursor: url(/src/media/cursors/rin-heart2.png), auto;}
-	   50% {cursor: url(/src/media/cursors/rin-heart3.png), auto;}
-	   75% {cursor: url(/src/media/cursors/rin-heart4.png), auto;}
-	   100% {cursor: url(/src/media/cursors/rin-heart5.png), auto;}
+	   0% {cursor: url(../media/cursors/rin-heart1.png), auto;}
+	   25% {cursor: url(../media/cursors/rin-heart2.png), auto;}
+	   50% {cursor: url(../media/cursors/rin-heart3.png), auto;}
+	   75% {cursor: url(../media/cursors/rin-heart4.png), auto;}
+	   100% {cursor: url(../media/cursors/rin-heart5.png), auto;}
    } 
    @keyframes cursor {
-	   0% {cursor: url(/src/media/cursors/rin-heart1.png), auto;}
-	   25% {cursor: url(/src/media/cursors/rin-heart2.png), auto;}
-	   50% {cursor: url(/src/media/cursors/rin-heart3.png), auto;}
-	   75% {cursor: url(/src/media/cursors/rin-heart4.png), auto;}
-	   100% {cursor: url(/src/media/cursors/rin-heart5.png), auto;}
+	   0% {cursor: url(../media/cursors/rin-heart1.png), auto;}
+	   25% {cursor: url(../media/cursors/rin-heart2.png), auto;}
+	   50% {cursor: url(../media/cursors/rin-heart3.png), auto;}
+	   75% {cursor: url(../media/cursors/rin-heart4.png), auto;}
+	   100% {cursor: url(../media/cursors/rin-heart5.png), auto;}
    }
    
    .title h1{
@@ -283,13 +283,13 @@
      letter-spacing:2.5px;
      padding-bottom:5px;}
      
-     ul{list-style-image: url('/src/media/bullet_placeholder.png');}
+     ul{list-style-image: url('../media/bullet_placeholder.png');}
      
     .n ul{
        padding:0;
        margin:0;
        list-style-position:inside;
-       list-style-image: url('/src/media/bullet_placeholder.png');
+       list-style-image: url('../media/bullet_placeholder.png');
        }
    
    .n{margin:0;

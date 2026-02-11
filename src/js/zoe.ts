@@ -1,6 +1,6 @@
-import '/src/css/zoe.css';
-import starsUrl from '/src/media/sparkly_stars.gif';
-import catgirlUrl from '/src/media/catgirl.jpg';
+import '../css/zoe.css';
+import starsUrl from '../media/sparkly_stars.gif';
+import catgirlUrl from '../media/catgirl.jpg';
 import { getDiscordJson } from './discord_api.mjs';
 import { getSheetsJson }from './sheets_api.mjs';
 
