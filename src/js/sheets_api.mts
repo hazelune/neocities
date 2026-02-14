@@ -12,25 +12,113 @@ interface RangesDict {
 	fear: boolean[];
 	exp: boolean[];
 	struggles: string[];
+	strugglesAlt: string[];
+	linksAlt: string[];
 	links: string[];
 	[key: string]: string | string[] | boolean[];
 }
 
+interface NotesDict {
+	[key: string]: string | string[] | boolean[];
+}
+
+interface RangeLocation {
+	sheet: string;
+	range: string;
+	notes: boolean;
+};
+
 // locations of needed data
-const STATS_DICT: Record<string, string> = {
-	heft: "B7:C8",
-	keen: "B12:C13",
-	sting: "B17:C18",
-	core: "B22:C23",
-	"break": "W3:X4",
-	weaponType: "G2",
-	ambitType: "I2:J2",
-	dynamic: "L2:N2",
-	harm: "Q2:U3",
-	fear: "Q5:U5",
-	exp: "Q7:U7",
-	struggles: "E18:G23", // (and notes)
-	links: "H18:K23"
+// "Alt" are located on a separat sheet
+const STATS_DICT: Record<string, RangeLocation> = {
+	heft: {
+		sheet: "Main",
+		range: "B7:C8",
+		notes: false
+	},
+	keen: {
+		sheet: "Main",
+		range: "B12:C13",
+		notes: false
+
+	},
+	sting: {
+		sheet: "Main",
+		range: "B17:C18",
+		notes: false
+
+	},
+	core: {
+		sheet: "Main",
+		range: "B22:C23",
+		notes: false
+
+	},
+	"break": {
+		sheet: "Main",
+		range: "W3:X4",
+		notes: false
+
+	},
+	weaponType: {
+		sheet: "Main",
+		range: "G2",
+		notes: false
+
+	},
+	ambitType: {
+		sheet: "Main",
+		range: "I2:J2",
+		notes: false
+
+	},
+	dynamic: {
+		sheet: "Main",
+		range: "L2:N2",
+		notes: false
+
+	},
+	harm: {
+		sheet: "Main",
+		range: "Q2:U3",
+		notes: false
+
+	},
+	fear: {
+		sheet: "Main",
+		range: "Q5:U5",
+		notes: false
+
+	},
+	exp: {
+		sheet: "Main",
+		range: "Q7:U7",
+		notes: false
+
+	},
+	struggles: {
+		sheet: "Main",
+		range: "E18:G23", 
+		notes: true
+	},
+	strugglesAlt: {
+		sheet: "Alternate",
+		range: "A2:C7", 
+		notes: true
+
+	},
+	links: {
+		sheet: "Main",
+		range: "H18:K23", 
+		notes: false 
+
+	},
+	linksAlt: {
+		sheet: "Alternate",
+		range: "D2:G7", 
+		notes: false
+
+	}
 }
 
 // DEPRECATED BOOOOO
@@ -79,10 +167,14 @@ interface NotesCollection {
 }
 
 // takes as input an array of ranges (currently, just one range for struggles)
-async function sheetsNotesRequest(rangesArr: string[]) {
+async function sheetsNotesRequest(rangesJson: Record<string, RangeLocation>): Promise<NotesDict> {
 	// if arr.length === 1, join just takes the string
-	let rangesStr: string = rangesArr.join("&ranges=");
-	const notesLink: string = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?ranges=${rangesStr}&fields=sheets(data(rowData(values(note))))&key=${API_KEY}`
+	const jsonNotesTrue = Object.fromEntries(
+		Object.entries(rangesJson).filter(([_key, stat]) => stat.notes === true)
+	);
+	const valuesStr = Object.values(jsonNotesTrue).map(stat => `${stat.sheet}!${stat.range}`);
+	let rangesStr: string = valuesStr.join("&ranges=");
+	const notesLink: string = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?ranges=${rangesStr}&fields=sheets(data(rowData(values(note))))&key=${API_KEY}`;
 	try {
 		// not going to bother typing this
 		const notesResponse = await fetch(notesLink, {
@@ -90,39 +182,48 @@ async function sheetsNotesRequest(rangesArr: string[]) {
 		});
 		if (notesResponse.ok) {
 			const notesJson = await notesResponse.json();
-			const messyArr = notesJson.sheets[0].data;
-			// okay i love you stack exchange and i need to learn maps better but
-			// this replaces each data[i]
-			let parsedArr = messyArr.map((collection: NotesCollection) => {
-				return collection.rowData
-					// removes empty json objects in rowData array
-					.filter(jsonObj => Object.keys(jsonObj).length != 0)
-					// and then maps each json object to the note string, 
-					.map((row: NoteRow) => {
-						if (row.values === undefined) {
-							return "no note given";
-						}
-						return row.values[0].note;
-					});
-			});
-			if (parsedArr.length === 1) {
-				parsedArr = parsedArr[0];
+			const outputKeys = Object.keys(jsonNotesTrue).map(key => `${key}Notes`);
+			let outputJson: Record<string, string | string[]> = {};
+			for (let i=0; i < notesJson.sheets.length; i++) {
+				const messyArr = notesJson.sheets[i].data;
+				// okay i love you stack exchange and i need to learn maps better but
+				// this replaces each data[i]
+				let parsedArr = messyArr.map((collection: NotesCollection) => {
+					return collection.rowData
+						// removes empty json objects in rowData array
+						.filter(jsonObj => Object.keys(jsonObj).length != 0)
+						// and then maps each json object to the note string, 
+						.map((row: NoteRow) => {
+							if (row.values === undefined) {
+								return "no note given";
+							}
+							return row.values[0].note;
+						});
+				});
+				if (parsedArr.length === 1) {
+					parsedArr = parsedArr[0];
+				}
+				outputJson[outputKeys[i]] = parsedArr;
 			}
-			return parsedArr;
+			return outputJson;
 		}
-
+		else {
+			throw new Error(`notes oopsie >w>: ${notesResponse.status}`);
+		}
 	} catch(error) {
 		console.error(error);
+		throw error;
 	}
 }
 
 
-async function fetchAllStats(rangesJson: Record<string, string>): Promise<RangesDict> {
+async function fetchAllStats(rangesJson: Record<string, RangeLocation>): Promise<RangesDict> {
 	// note that order of ranges in link placement is the same as order of resultant values
 	// maybe i could do this with a dataframe equivalent in JS but nahhhh i wanna use primitives
 	const keys = Object.keys(rangesJson);
-	const rangeValues = Object.values(rangesJson);
-	const rangesStr = rangeValues.join("&ranges=");
+	const jsonValues = Object.values(rangesJson);
+	const valuesStr = jsonValues.map(stat => `${stat.sheet}!${stat.range}`);
+	const rangesStr = valuesStr.join("&ranges=");
 	let fetchLink = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values:batchGet?key=${API_KEY}&ranges=${rangesStr}`;
 	try {
 		const statsResponse = await fetch(fetchLink, {
@@ -177,10 +278,7 @@ async function fetchAllStats(rangesJson: Record<string, string>): Promise<Ranges
 export async function getSheetsJson() {
 	// Object.entries() returns an array of key-value pairs
 	const statsJson: RangesDict = await fetchAllStats(STATS_DICT);
-	const notesArr: string[] = [STATS_DICT.struggles]
-	const notesJson = {
-		strugglesNotes: await sheetsNotesRequest(notesArr)
-	}
+	const notesJson: NotesDict = await sheetsNotesRequest(STATS_DICT);
 	const returnJson: RangesDict = { ...statsJson, ...notesJson }
 	/*
 	let strugglesNotes = [];
@@ -192,5 +290,4 @@ export async function getSheetsJson() {
 	*/
 	return returnJson;
 }
-
 
