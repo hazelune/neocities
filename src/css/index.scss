@@ -1,0 +1,547 @@
+ :root {
+     --cursor-url1: url(../media/cursors/rin-heart1.png);
+     --cursor-url2: url(../media/cursors/rin-heart2.png);
+     --cursor-url3: url(../media/cursors/rin-heart3.png);
+     --cursor-url4: url(../media/cursors/rin-heart4.png);
+     --cursor-url5: url(../media/cursors/rin-heart5.png);
+     --bg-img: repeating-linear-gradient(45deg, #c0b5ef 0, #c0b5ef 1.5px, #eed6ff 0, #eed6ff 50%);
+     --bg-size: 15px 15px;
+     --gc-gap: 20px;
+     --panel-padding: 30px;
+     --panel-margin: 20px 0;
+     --block-bg: white;
+     --opacity: 0.8;
+     --block-border: 1px solid black;
+     --block-outline: 10px solid white;
+     --block-border-radius: 13px;
+     --block-borderimg: none;
+     --block-borderimg-slice: 100%;
+     --block-borderimg-width: 1;
+     --block-borderimg-outset: 0;
+     --block-borderimg-repeat: stretch;
+}
+
+html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+}
+
+body.broken {
+     --cursor-url1: url(../media/cursors/rin-help1.png);
+     --cursor-url2: url(../media/cursors/rin-help2.png);
+     --cursor-url3: url(../media/cursors/rin-help3.png);
+     --cursor-url4: url(../media/cursors/rin-help2.png);
+     --cursor-url5: url(../media/cursors/rin-help1.png);
+     --bg-img: url("../media/backgrounds/purp010.jpg");
+     --bg-size: 50px 50px;
+     --gc-gap: 0px;
+     --panel-padding: 50px 10px;
+     --panel-margin: 0;
+     --block-bg: #f0dadd;
+     --opacity: 0.9;
+     --block-border: none;
+     --block-outline: none;
+     --block-border-radius: 30px;
+     --block-borderimg: url("../media/borders/hearts-skulls.png");
+     --block-borderimg-slice: 30 50 30 50;
+     --block-borderimg-width: 30px 50px 30px 50px;
+     --block-borderimg-outset: 13px 0px 13px 0px;
+     --block-borderimg-repeat: round round;
+}
+
+@font-face {
+	   font-family: 'Sorach';
+	   src: url('../fonts/Sorach.ttf') format('truetype');
+	   font-weight: normal;
+	   font-style: normal;
+	   font-display: swap;
+   }
+
+   * {
+	   cursor: url(--cursor-url1), auto;
+	   -webkit-animation: cursor 400s infinite;
+	   animation: cursor 400ms infinite;
+   }
+   @-webkit-keyframes cursor {
+	   0% {cursor: var(--cursor-url1), auto;}
+	   25% {cursor: var(--cursor-url2), auto;}
+	   50% {cursor: var(--cursor-url3), auto;}
+	   75% {cursor: var(--cursor-url4), auto;}
+	   100% {cursor: var(--cursor-url5), auto;}
+   } 
+   @keyframes cursor {
+	   0% {cursor: var(--cursor-url1), auto;}
+	   25% {cursor: var(--cursor-url2), auto;}
+	   50% {cursor: var(--cursor-url3), auto;}
+	   75% {cursor: var(--cursor-url4), auto;}
+	   100% {cursor: var(--cursor-url5), auto;}
+   }
+   
+   .title h1{
+	   font-family: 'Sorach', Helvetica;
+	   letter-spacing: 3px;
+	   color: #23274d;
+   }
+
+   body  {
+     background: #f7d2d2;
+     font-family: 'Tajawal', sans-serif;
+     font-size: 15px;
+     letter-spacing:1px;
+     background-color: #eed6ff;
+     opacity: var(--opacity);
+     background-size: var(--bg-size);
+     background-image: var(--bg-img);
+    }
+
+    /* this sets the keyframes (of an animation) rule to be used stamp-scroll*/
+    @keyframes horizontalscroll {
+	    0% {
+		    transform: translate(0,0);
+	    }
+	    100% {
+		    transform: translate(-33.3333%,0);
+	    }
+    }
+
+    // this never ended up getting used, but might be nice later (recommend ease-in-out)
+    @keyframes verticaloscillate {
+            0% {
+                    transform: translateY(0px);
+            }
+            25% {
+                    transform: translateY(-10px);
+            }
+            50% {
+                    transform: translateY(0px);
+            }
+
+            75% {
+                    transform: translateY(10px);
+            }
+            100% {
+                    transform: translateY(0px);
+            }
+    }
+
+    .stamp-scroll {
+	    /* css animation is a shorthand for several properties -- this tells the @keyframes rule to use, the duration, iteration count, and then speed at which it hits the keyframes (acceleration/deceleration) */
+	    /* for accessibility, try this later https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion */
+            animation: horizontalscroll 10s infinite linear;
+	    white-space: nowrap;
+	    position: absolute;
+	    overflow: hidden;
+	    z-index: 10;
+            padding: 10px 0 20px 0;
+            margin: 10px 0 65px 0;
+    }
+     
+   #container {
+	   overflow:auto;
+	   overflow-x:none;
+	   margin: 0 auto;
+	   margin-top: 20px;
+	   margin-bottom: 20px;
+     }
+     
+   .header{
+     float:left;
+     margin: 0;
+     padding: 0;
+     width: 100%;
+     height: 150px;
+     border-radius: 13px 13px 0px 0px;
+     border-bottom: 1px solid black;
+     }
+
+     /* setup grid */
+     * {
+	     box-sizing: border-box;
+     }
+     .grid-container {
+	     position: relative;
+	     display: grid;
+	     grid-template-columns: 0.3fr 0.7fr; /* unequal cols */
+	     gap: var(--gc-gap); /* adds gap between cols */
+	     width: 100%;
+	     box-sizing: border-box;
+     }
+
+     .left-panel {
+	     position: relative;
+	     display: grid;
+	     grid-template-columns: 1fr;
+	     grid-auto-rows: min-content;
+	     row-gap: 2em;
+	     overflow-y: auto;
+	     overflow-x: visible;
+	     padding: var(--panel-padding);
+	     margin: var(--panel-margin);
+             max-width: 100%;
+             overflow-x: hidden;
+	     /* border: 1px solid black;
+	     outline: 10px solid white;
+	     border-radius: 13px; */
+     }
+
+     .right-panel {
+	     display: grid;
+	     grid-template-columns: 1fr 1fr;  /* equal size cols */
+	     grid-auto-rows: min-content;
+	     overflow-y: hidden;
+	     overflow-x: hidden;
+	     row-gap: 2em;  /* gap between rows of panel */
+	     gap: 30px;  /* gap between cols */
+	     /* border: 1px solid black;
+	     outline: 10px solid white;
+	     border-radius: 13px; */
+         padding: var(--panel-padding);
+         margin: var(--panel-margin);
+     }
+     .full-width {
+	     grid-column: 1 / -1;
+     }
+     .center-container {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 100vh;
+     }
+     .block {
+	     position: relative;
+	     background: var(--block-bg);
+	     padding: 15px;
+	     border: var(--block-border);
+	     outline: var(--block-outline);
+	     border-radius: var(--block-border-radius);
+         border-image: var(--block-borderimg);
+         border-image-slice: var(--block-borderimg-slice);
+         border-image-width: var(--block-borderimg-width);
+         border-image-outset: var(--block-borderimg-outset);
+         border-image-repeat: var(--block-borderimg-repeat);
+     }
+
+     #discord {
+	     background: #242429;
+	     color: #efeff1;
+     }
+     #discord p, h3 {
+	     margin: 2.5px 0;
+     }
+     #discord img {
+	     margin-bottom: 0;
+	     padding: 0;
+     }
+
+     .obnoxious {
+	     position: absolute;
+	     z-index: 5;
+     }
+     #good-morning {
+	     bottom: 0px;
+	     right: 0px;
+	     width: 230px;
+     }
+     #flag {
+	     top: -20px;
+	     right: 0px;
+	     width: 200px;
+	     transform: rotate(15deg);
+     }
+     #madoka-homura {
+	     bottom: 10px;
+	     right: 10px;
+	     width: 200px;
+	     transform: rotate(20deg);
+     }
+     #konata {
+	     bottom: -50px;
+	     right: 550px;
+	     width: 200px;
+     }
+     .shadow {
+	     box-shadow: 10px 10px 5px 8px #aaaaaa;
+     }
+     .circle-frame {
+	     border-radius: 50%;
+     }
+     
+     .h{
+    margin-top:55px;
+     padding-left: 15px;
+     font-size: 30px;
+     color:white;
+     letter-spacing:3px;
+     line-height:25px;
+     font-weight:bold;}
+     
+     .h h2{
+       line-height:20px;
+     letter-spacing:3px;
+      font-weight:normal;
+      font-size: 17px;
+      margin:0;
+      padding:0;
+     }
+   
+     
+   .side{
+     width: 200px;
+     float:left;
+     border: none;
+     margin: 25px;
+     margin-right: 5px;
+   }
+   
+   .blog{
+     border: none;
+     width: 515px;
+     float:right;
+     margin: 25px;
+     margin-left: 10px;
+   }
+   
+   .side h1{
+     font-size:24px;
+     padding:0px;
+     margin:0px;
+     text-align:center;
+     border-bottom: 1px solid #4a3f3f;
+     font-weight: normal;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:6px;
+   }
+     
+   .side h2{
+     background: url('../../sources/media/placeholder.png');
+     font-size:20px;
+     padding:0px;
+     margin:0px;
+     text-align:center;
+     color:white;
+     font-weight: bold;
+     border: 1px solid black;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:3px;
+   }  
+   
+    .blog h1{
+     font-size:26px;
+     padding:0px;
+     margin:0px;
+     text-align:right;
+     border-bottom: 1px solid #4a3f3f;
+     font-weight: normal;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:3px;
+   }
+   
+     
+   .blog h2{
+     background: url('../../sources/media/placeholder.png');
+     font-size:20px;
+     padding:0px;
+     margin:0px;
+     text-align:center;
+     color:white;
+     font-weight: bold;
+     border: 1px solid black;
+     line-height: 20px;
+     padding-top:10px;
+     margin-bottom:5px;
+     letter-spacing:3px;
+   }  
+     
+   .t{
+     color:#4a3f3f;
+     padding-top:5px;
+     font-size:14px;
+     letter-spacing:2.5px;
+     padding-bottom:5px;}
+     
+     ul{list-style-image: url('../media/bullet_placeholder.png');}
+     
+    .n ul{
+       padding:0;
+       margin:0;
+       list-style-position:inside;
+       list-style-image: url('../media/bullet_placeholder.png');
+       }
+   
+   .n{margin:0;
+   padding:0;
+   
+   }
+   
+   .n a{
+    color: black;
+    text-decoration:none;
+    margin:0;
+    padding: 0;
+    padding-top: 5px;
+    padding-bottom:5px;
+    border:none;
+   }
+   
+   .n a:hover{
+     color:#ad6a6a;
+     -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;}
+   
+   .n li{
+     border-bottom: 1px dashed #aaa;
+     list-style-type: square;
+    margin-top: 5px;
+    margin-bottom: 5px;}
+    
+    .n ul{
+      margin-top: -5px;}
+     
+   
+   .footer{
+   width: 100%;
+  height: auto;
+  line-height: 16px;
+  background: url('../../sources/media/placeholder.png');
+     border-radius: 0px 0px 13px 13px;
+  border-top: 1px solid black;
+  text-align:center; 
+  font-size: 16px;
+  margin:0;
+  font-weight:normal;
+  color:#fff;
+  padding:0;
+  padding-top:10px;
+  padding-bottom:4px;
+  float:right;}
+     
+ .footer a{
+   text-decoration: none;
+   color:inherit;}
+   
+   
+ .footer a:hover{
+   -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;
+   color:#f7d2d2;}
+   
+   a{
+     text-decoration:none;
+   border-bottom: 1px dashed #992b2b;
+   color: #333;
+   -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;}
+   
+   a:hover{
+     -moz-transition:.5s;
+ -webkit-transition:.5s;
+ transition:.5s;
+     color:#992b2b;}
+     
+     em{
+      font-style:normal;
+      font-weight:bold;
+      color: #f7d2d2;
+      background: #992b2b;
+     }
+     
+     i{
+       color: #992b2b;}
+       
+       blockquote{
+         border: 1px solid black;
+     border-radius: 13px;
+     padding:5px;
+     color: black;
+     background:#f7d2d2;}
+   
+   ::-webkit-scrollbar {
+     width: 8px;
+     background:white;
+     
+     border: 1px solid #000;
+ }
+ 
+ ::-webkit-scrollbar-track {
+     -webkit-box-shadow: inset 0 0 0px rgba(0,0,255,1); 
+     border-radius: 0px;
+     
+ }
+ 
+ ::-webkit-scrollbar-thumb {
+   
+     border-radius: 0px;
+     -webkit-box-shadow: inset 0 0 0px rgba(0,0,0,0.5); 
+     background:black;
+     
+     border: 0px solid #fff;
+ } 
+
+   
+@media only screen and (max-width: 799px) {
+  
+  body{
+    width:100%;
+    margin: 0;
+    padding:0;
+    font-size: 20px;}
+    
+  #container{
+  width: 95%;
+  margin: 0 auto;
+  padding:0;
+  margin-top: 15px;
+  margin-bottom: 15px; 
+  }
+  
+  .header{
+    text-align:center;
+    height: 200px;}
+    
+    .h{
+      margin-left: -5px;
+      font-size: 50px;
+    line-height: 45px;}
+    
+    .h h2{font-size: 22px;
+    line-height: 50px;}
+  
+  .blog{
+    display:inline-block;
+    float:none;
+    width: 100%;
+    margin:0;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding:0;}
+    
+  .side{
+    display:inline-block;
+    float:none;
+    width: 100%;
+    margin:0;
+    margin-top:10px;
+    border-top: 1px dashed black;
+    padding:0;
+    margin-bottom: 10px;
+    padding-top:20px;}
+    
+  .t{
+    margin-bottom: 10px;
+    padding:5px;
+    font-size: 20px;}
+    
+     .n ul{
+       padding-left: 5px;
+       padding-right: 5px;}
+    
+  }

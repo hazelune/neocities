@@ -1,4 +1,4 @@
-import '../css/zoe.css';
+import '../css/zoe.scss';
 // asset import
 // some images
 import starsUrl from '../media/sparkly_stars.gif';
@@ -213,6 +213,7 @@ const ChildWave = ({ arr, elementType, startY, endY, staggerParameter, delayPara
 	);
 }
 
+
 // SHEETS STATS INTEGRATION
 // putting this first because actually i'm going to make this site vary based on her break
 // fetching from api and placing under correct block
@@ -247,13 +248,38 @@ if (statsListDiv) {
 	);
 	expLi.textContent = `Exp: ${expNum}`; 
 
-	// used for site design :3c
+	// useState is used bc of changing text caret
+	// ignore these for now
+	/*
+	const [heftStr, changeHeft]: String = useState(statsJson.heft);
+	const [keenStr, changeKeen]: String = useState(statsJson.keen);
+	const [stingStr, changeSting]: String = useState(statsJson.sting);
+	const [coreStr, changeCore]: String = useState(statsJson.core);
+	const [breakStr, changeBreak]: String = useState(statsJson.break);
+	*/
+	let heftStr: string = statsJson.heft;
+	let keenStr: string = statsJson.keen;
+	let stingStr: string = statsJson.sting;
+	let coreStr: string = statsJson.core;
+	let breakStr: string = statsJson.break;
+
+
+	const statCaret = () => {
+		// functionArr = 
+		// at random time
+		// create caret at random stat
+		// change stat to
+		// \pm 1 (only slight change, so rand from arr surrounding stat)
+		// or a 25% chance of emoticon (arr of emoticons)
+	}
+
+	// used for site design :3c; not using breakStr to avoid rerendering whole website and whatnot
 	breakStat = parseInt(statsJson.break.slice(1)); 
 	// and these are for the five ability scores
 	const heftLi = document.createElement("li");
-	heftLi.textContent = `Heft: ${statsJson.heft}`;
+	heftLi.textContent = `Heft: ${heftStr}`;
 	const keenLi = document.createElement("li");
-	keenLi.textContent = `Keen: ${statsJson.keen}`;
+	keenLi.textContent = `Keen: ${keenStr}`;
 	const stingLi = document.createElement("li");
 	stingLi.textContent = `Sting: ${statsJson.sting}`;
 	const coreLi = document.createElement("li");
@@ -397,7 +423,9 @@ const upperStampScroll = document.querySelector("#upper-stamp-scroll");
 if (upperStampScroll) {
 	const upperStampScrollDiv = document.createElement("div");
 	const upperStampScrollRoot = createRoot(upperStampScrollDiv);
-	upperStampScrollRoot.render(<ChildWave arr = {stampArr} elementType = "div" staggerParameter = {0.15} delayParameter = {0.20} startY = {-10} endY = {10} damp = {10} stiff = {50}/>);
+	if (breakStat >= 4) {
+		upperStampScrollRoot.render(<ChildWave arr = {stampArr} elementType = "div" staggerParameter = {0.15} delayParameter = {0.20} startY = {-10} endY = {10} damp = {10} stiff = {50}/>);
+	}
 	upperStampScroll.appendChild(upperStampScrollDiv);
 }
 const lowerStampScroll = document.querySelector("#lower-stamp-scroll");
@@ -410,14 +438,15 @@ if (lowerStampScroll) {
 
 
 // FOR MUSIC (mp3s on neocities costs money sobbing)
-
-let audioSrc = "../mp3/misery-business.mp3"; // https://youtu.be/RVhHCJMCyTE
+// mp3 must be in "public" dir
+let audioSrc = "/mp3/misery-business.mp3"; // https://youtu.be/RVhHCJMCyTE
 if (breakStat >= 4) {
-	audioSrc = "../mp3/cc.mp3"; // https://youtu.be/auJdZUlKrzM
+	audioSrc = "/mp3/cc.mp3"; // https://youtu.be/auJdZUlKrzM
 }
 
 // IM IN THE BUSINESS OF MISERY (no audio yet)
-const audioDiv = document.querySelector("#misery-business");
+const audioDiv = document.querySelector("#audio-div");
+console.log(audioSrc);
 if (audioDiv) {
 	const audio = document.createElement("audio");
 	const audioAttributes = {
@@ -426,6 +455,7 @@ if (audioDiv) {
 		src: audioSrc
 	}
 	setManyAttributes(audio, audioAttributes);
+	console.log(audio);
 	// random playback speed between 1x and 1.5x (in addition to the already sped up nightcore)
 	audio.playbackRate = Math.random() * (1.5 - 1) + 1;
 	audioDiv.appendChild(audio);
