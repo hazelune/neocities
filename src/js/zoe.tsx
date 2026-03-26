@@ -465,7 +465,7 @@ if (audioDiv) {
 
 
 // SETUP DISCORD  
-const discordJson = await getDiscordJson(); 
+const discordJson = await getDiscordJson("351470624373342221"); 
 if (discordJson) {
 	console.log("getting the following json:", discordJson); 
 	const displayName = discordJson.displayName;

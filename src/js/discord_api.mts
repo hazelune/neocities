@@ -1,12 +1,10 @@
 // these two are used for recurrent updates on the site
-const USER_ID = "351470624373342221";
-
 
 // this uses lanyard to fetch data
-export async function getDiscordJson(): Promise<Record<string, string> | undefined> {
+export async function getDiscordJson(userId: string): Promise<Record<string, string> | undefined> {
 	// trying to get the lanyard url
 	try {
-		const lanyardUrl = `https://api.lanyard.rest/v1/users/${USER_ID}`;
+		const lanyardUrl = `https://api.lanyard.rest/v1/users/${userId}`;
 
 		const lanyardResponse = await fetch(lanyardUrl, {
 			method: 'GET'
@@ -17,7 +15,7 @@ export async function getDiscordJson(): Promise<Record<string, string> | undefin
 			const lanyardData = await lanyardResponse.json();
 			const userData = lanyardData.data.discord_user;
 			const avatarHash = userData.avatar;
-			const avatarUrl = `https://cdn.discordapp.com/avatars/${USER_ID}/${avatarHash}.png`;
+			const avatarUrl = `https://cdn.discordapp.com/avatars/${userId}/${avatarHash}.png`;
 			const username = userData.username;
 			const displayName = userData.display_name;
 			const userStatus = lanyardData.data.discord_status;
@@ -64,4 +62,3 @@ export async function getDiscordJson(): Promise<Record<string, string> | undefin
 	}
 }
 
-console.log(await getDiscordJson());
