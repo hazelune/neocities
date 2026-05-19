@@ -1,4 +1,4 @@
-import{c as w,m as E,j as C,g as A,a as N}from"./client-_ceJYUTj.js";async function _(c,t,n){const l=`https://api.github.com/repos/${c}/${t}/commits`;try{const s=await fetch(l,{method:"GET"});if(s.ok)return(await s.json()).map(o=>{const e=o.commit.message.split(`
+import{c as w,m as E,j as C,g as A,a as N}from"./client-C-BhEGjJ.js";async function _(c,t,n){const l=`https://api.github.com/repos/${c}/${t}/commits`;try{const s=await fetch(l,{method:"GET"});if(s.ok)return(await s.json()).map(o=>{const e=o.commit.message.split(`
 
 `),a=e[0],r=e.slice(1).join(`
 
