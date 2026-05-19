@@ -29,10 +29,13 @@ export async function getDiscordJson(userId: string): Promise<Record<string, str
 				statusEmoji = null; 
 				statusText = null;
 			} else {
-				console.log(activities[0].emoji.name);
-				statusEmoji = activities[0].emoji.name;
+				if (activities[0].emoji != null) {
+					console.log(activities[0].emoji.name);
+					statusEmoji = activities[0].emoji.name;
+				} else {
+					statusEmoji = null;
+				}
 				statusText = activities[0].state;
-
 			}
 
 
